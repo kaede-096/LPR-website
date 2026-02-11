@@ -39,7 +39,7 @@
   position: relative;
 }
 
-/* --- SIDEBAR (Desktop Default) --- */
+/* --- SIDEBAR --- */
 .ga-sidebar {
   width: var(--sidebar-w);
   background: var(--panel);
@@ -53,19 +53,20 @@
   flex-shrink: 0;
 }
 
+/* Collapsed State (Desktop) */
 .ga-sidebar.collapsed { width: 80px; align-items: center; padding: 20px 10px; }
 
-/* Hamburger & Mobile Controls */
-.hamburger-btn { display: none; background: none; border: none; font-size: 24px; color: var(--text); cursor: pointer; padding: 8px; z-index: 60; }
-.mobile-close-btn { display: none; position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 28px; color: var(--text-muted); cursor: pointer; }
-.mobile-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); z-index: 40; }
+/* HIDE TEXT WHEN COLLAPSED */
+.ga-sidebar.collapsed .brand-text,
+.ga-sidebar.collapsed .menu-label { 
+  display: none; 
+}
 
 /* Sidebar Content */
 .sidebar-top { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; overflow: hidden; white-space: nowrap; width: 100%; }
 .brand-logo-img { width: 36px; height: 36px; flex-shrink: 0; }
-.brand-text { transition: opacity 0.2s; }
-.ga-sidebar.collapsed .brand-text { display: none; }
 
+/* Menu Items */
 .gs-menu { display: flex; flex-direction: column; gap: 6px; flex: 1; width: 100%; }
 .gs-menu button {
   display: flex; align-items: center; gap: 14px;
@@ -75,13 +76,25 @@
 }
 .gs-menu button:hover { background: var(--hover); color: var(--text); }
 .gs-menu button.active { background: rgba(59, 130, 246, 0.1); color: var(--accent); font-weight: 600; }
-.gs-menu button span { font-size: 20px; width: 24px; display: grid; place-items: center; flex-shrink: 0; }
 
+.menu-label {
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.2s;
+}
+
+/* Controls */
 .gs-controls { display: flex; flex-direction: column; gap: 10px; margin-top: auto; width: 100%; }
 .theme-toggle, .sidebar-signout { padding: 10px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; text-align: center; width: 100%; }
 .theme-toggle { background: var(--hover); border: 1px solid var(--border); color: var(--text); }
 .sidebar-signout { background: transparent; border: 1px solid var(--warn); color: var(--warn); }
 .ga-sidebar.collapsed .gs-controls button { font-size: 10px; padding: 8px 4px; }
+
+/* Hamburger & Mobile Elements */
+.hamburger-btn { display: none; background: none; border: none; font-size: 24px; color: var(--text); cursor: pointer; padding: 8px; z-index: 60; }
+.mobile-close-btn { display: none; position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 28px; color: var(--text-muted); cursor: pointer; }
+.mobile-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); z-index: 40; }
+
 
 /* --- MAIN CONTENT --- */
 .ga-main {
@@ -106,12 +119,7 @@
 .badge-count { background: var(--warn); color: white; padding: 2px 6px; border-radius: 10px; font-size: 10px; }
 
 /* --- DASHBOARD GRID --- */
-.ga-body {
-  display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 24px;
-  align-items: start;
-}
+.ga-body { display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start; }
 .ga-body.full-width { grid-template-columns: 1fr; }
 
 /* --- CARDS & WIDGETS --- */
@@ -150,68 +158,20 @@
 .alert-row { display: flex; justify-content: space-between; font-size: 13px; padding: 8px 0; border-bottom: 1px solid var(--border); }
 .alert-row:last-child { border-bottom: none; }
 
-/* --- TABLES (SLIDEBAR/SCROLLABLE) --- */
-.table-card { 
-  background: var(--panel); 
-  border: 1px solid var(--border); 
-  border-radius: 12px; 
-  overflow: hidden; 
-  display: flex; 
-  flex-direction: column; 
-  width: 100%; /* Ensure card takes full width */
-  min-width: 0; /* Allow shrinking in flex/grid contexts */
-}
-
+/* --- TABLES --- */
+.table-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; width: 100%; min-width: 0; }
 .logs-controls { padding: 16px; border-bottom: 1px solid var(--border); display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between; }
 .search-box { flex: 1; min-width: 200px; }
 .search-input { width: 100%; background: var(--input-bg); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 6px; }
 .date-filters { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .date-input { background: var(--input-bg); border: 1px solid var(--border); color: var(--text); padding: 6px; border-radius: 6px; font-family: inherit; }
-
-/* KEY: FORCE SCROLL LOGIC */
-.table-wrapper { 
-  width: 100%; 
-  overflow-x: auto; /* Enable Horizontal Scroll */
-  overflow-y: auto; /* Enable Vertical Scroll */
-  max-height: 60vh; /* Limits height to trigger vertical scroll */
-  border-bottom: 1px solid var(--border);
-  display: block; /* Ensures wrapper behaves as block for scrolling */
-}
-
-/* Chrome/Safari Scrollbar Styling */
+.table-wrapper { width: 100%; overflow-x: auto; overflow-y: auto; max-height: 60vh; border-bottom: 1px solid var(--border); display: block; }
 .table-wrapper::-webkit-scrollbar { width: 10px; height: 10px; }
 .table-wrapper::-webkit-scrollbar-track { background: var(--bg); }
-.table-wrapper::-webkit-scrollbar-thumb { 
-  background: var(--border); 
-  border-radius: 5px; 
-  border: 2px solid var(--bg);
-}
-.table-wrapper::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
-
-/* FORCE TABLE WIDTH TO TRIGGER SLIDE */
-/* Min-width ensures table is wider than mobile screen, forcing scroll */
-.table { 
-  width: 100%; 
-  border-collapse: collapse; 
-  min-width: 1000px; 
-  font-size: 14px; 
-  white-space: nowrap; 
-}
-
+.table-wrapper::-webkit-scrollbar-thumb { background: var(--border); border-radius: 5px; border: 2px solid var(--bg); }
+.table { width: 100%; border-collapse: collapse; min-width: 1000px; font-size: 14px; white-space: nowrap; }
 .table th, .table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
-
-/* STICKY HEADER */
-.table th { 
-  background: var(--panel); 
-  color: var(--text-muted); 
-  font-size: 11px; 
-  text-transform: uppercase;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  box-shadow: 0 1px 0 var(--border);
-}
-
+.table th { background: var(--panel); color: var(--text-muted); font-size: 11px; text-transform: uppercase; position: sticky; top: 0; z-index: 10; box-shadow: 0 1px 0 var(--border); }
 .pagination { padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; background: var(--panel); border-top: 1px solid var(--border); }
 .page-btn { padding: 6px 12px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text); border-radius: 6px; cursor: pointer; }
 
@@ -226,26 +186,12 @@
 .chart-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; min-width: 0; }
 .chart-header { padding: 12px 16px; border-bottom: 1px solid var(--border); }
 
-/* --- ALERT TOAST (Adjusted: Small, Lower, Dismiss) --- */
-.alert-floating { 
-  position: fixed; 
-  top: 80px; 
-  right: 16px; 
-  z-index: 900; 
-  min-width: 250px; 
-  max-width: 320px;
-  background: var(--panel); 
-  border: 1px solid; 
-  border-radius: 8px; 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-  animation: slideInTop 0.3s ease; 
-  font-size: 12px; 
-}
+/* --- ALERT TOAST --- */
+.alert-floating { position: fixed; top: 80px; right: 16px; z-index: 900; min-width: 250px; max-width: 320px; background: var(--panel); border: 1px solid; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: slideInTop 0.3s ease; font-size: 12px; }
 .alert-content { padding: 8px 12px; }
 .alert-info { border-color: var(--accent); background: #0f172a; }
 .alert-warn { border-color: var(--warn); background: #0f172a; }
 .alert-dismiss { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 11px; text-decoration: underline; }
-
 @keyframes slideInTop { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
 /* =========================================
@@ -254,12 +200,11 @@
 @media (max-width: 1024px) {
   /* Tablet Mode: Collapsed sidebar by default */
   .ga-sidebar { width: 80px; padding: 20px 10px; }
-  .ga-sidebar .brand-text, .ga-sidebar button span + text { display: none; }
+  /* We rely on 'collapsed' class logic here, so no extra hiding needed if logic is correct */
   .reports-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 768px) {
-  /* Mobile Phone Mode */
   .gate-admin { flex-direction: column; }
   .ga-main { padding: 16px; gap: 16px; width: 100vw; }
   
@@ -270,45 +215,40 @@
   
   .ga-sidebar {
     position: fixed; 
-    top: 0; bottom: 0; left: -100%; /* Initially hidden */
-    width: 280px; /* Wider drawer */
+    top: 0; bottom: 0; left: -100%;
+    width: 280px;
     padding: 24px;
-    align-items: flex-start; /* IGILID (Left Align) */
+    align-items: flex-start;
     box-shadow: 5px 0 20px rgba(0,0,0,0.5);
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1000; /* Highest z-index */
+    z-index: 1000;
   }
   
-  /* When Mobile Open: Show Text & Reset Alignment */
+  /* MOBILE OPEN STATE - FORCE SHOW ELEMENTS */
   .ga-sidebar.mobile-open { left: 0; }
-  .ga-sidebar.mobile-open .brand-text { display: block; } 
-  .ga-sidebar.mobile-open .gs-menu button span + text { display: inline-block; margin-left: 10px; } /* SHOW NAMES */
-  .ga-sidebar.collapsed { width: 280px; } /* Disable collapse logic in mobile drawer */
+  
+  /* FORCE VISIBILITY OF TEXT WHEN MOBILE MENU IS OPEN */
+  .ga-sidebar.mobile-open .brand-text { display: block !important; } 
+  .ga-sidebar.mobile-open .menu-label { display: block !important; }
 
-  /* GRID STACKING */
+  /* Ensure button layout allows text */
+  .ga-sidebar.mobile-open .gs-menu button {
+      justify-content: flex-start;
+      padding: 12px 14px;
+  }
+
+  /* Reset collapsed width if it was set by JS state */
+  .ga-sidebar.collapsed { width: 280px; } 
+
   .ga-body { grid-template-columns: 1fr; gap: 16px; }
   .feeds { grid-template-columns: 1fr; }
   
-  /* --- ALERT ADJUSTMENT (SMALLER & UNOBSTRUCTIVE) --- */
-  .alert-floating { 
-    top: 65px; /* Positioned below the header */
-    left: 16px; 
-    right: 16px;
-    width: auto;
-    min-width: 0; 
-    max-width: none;
-    font-size: 11px; /* Smaller font */
-    padding: 0; /* Let inner content handle padding */
-    border-radius: 6px;
-  }
-  .alert-content { padding: 6px 10px; } /* Tighter padding */
+  .alert-floating { top: 65px; left: 16px; right: 16px; width: auto; min-width: 0; max-width: none; font-size: 11px; padding: 0; border-radius: 6px; }
+  .alert-content { padding: 6px 10px; }
   
-  /* CONTROLS */
   .hide-mobile { display: none; }
   .logs-controls { flex-direction: column; gap: 10px; }
   .date-filters { width: 100%; justify-content: space-between; }
   .date-input { flex: 1; }
-  
-  /* TABLET SCROLLBAR VISIBILITY */
   .table-wrapper { margin-bottom: 20px; }
 }

@@ -411,7 +411,9 @@ export default function AdminDashboard() {
             { id: "users", label: "System Management", icon: "👥" },
           ].map(m => (
             <button key={m.id} className={activeTab === m.id ? "active" : ""} onClick={() => { setActiveTab(m.id); setMobileMenuOpen(false); }}>
-              <span>{m.icon}</span> {!sidebarCollapsed && m.label}
+              <span style={{ fontSize: '20px', display: 'grid', placeItems: 'center' }}>{m.icon}</span>
+              {/* WRAPPED IN SPAN with class 'menu-label' */}
+              <span className="menu-label">{m.label}</span>
             </button>
           ))}
         </div>
