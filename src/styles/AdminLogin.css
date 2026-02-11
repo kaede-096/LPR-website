@@ -1,0 +1,219 @@
+/* src/styles/AdminLogin.css */
+
+/* --- 1. THEME VARIABLES --- */
+:root {
+  /* Brand */
+  --accent: #2b8cff;
+  --accent-hover: #1f6fd1;
+  
+  /* DARK MODE (Default) */
+  --bg-container: #071025; /* Dark Blue */
+  --bg-panel: #0f1724;     /* Slightly Lighter Dark */
+  --text-main: #e6eef8;    /* White/Blueish */
+  --text-muted: #97a0b3;   /* Muted Gray */
+  --border: #334155;
+  --input-bg: rgba(0,0,0,0.2);
+  --logo-bg: rgba(255,255,255,0.05);
+  --panel-width: 520px;
+  
+  /* Transitions */
+  --trans-speed: 0.3s;
+}
+
+/* LIGHT MODE OVERRIDES */
+:root[data-theme="light"] {
+  --bg-container: #f1f5f9; /* Light Gray */
+  --bg-panel: #ffffff;     /* White */
+  --text-main: #0f172a;    /* Dark Text */
+  --text-muted: #64748b;   /* Muted Text */
+  --border: #e2e8f0;       /* Light Border */
+  --input-bg: #f8fafc;
+  --logo-bg: #f1f5f9;
+}
+
+/* --- 2. GLOBAL RESET & SCROLL FIX --- */
+* { box-sizing: border-box; }
+
+html, body, #root { 
+  min-height: 100vh; 
+  width: 100%;
+  margin: 0; 
+  padding: 0;
+  /* Smooth transition for global background */
+  transition: background-color var(--trans-speed) ease;
+}
+
+.fullscreen-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg-container);
+  /* ANIMATION: Background color change */
+  transition: background-color var(--trans-speed) ease;
+}
+
+/* --- THEME TOGGLE --- */
+.login-theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 50;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  /* ANIMATION */
+  transition: all 0.2s ease, background-color var(--trans-speed) ease, border-color var(--trans-speed) ease;
+}
+.login-theme-toggle:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Left Column: Video */
+.login-image {
+  flex: 1 1 auto;
+  position: relative;
+  min-width: 320px;
+  display: block;
+  overflow: hidden;
+  background: #031020;
+}
+
+.bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  /* Always keeps video side slightly dark for contrast */
+  background: linear-gradient(90deg, rgba(4,8,18,0.45), rgba(4,8,18,0.8));
+  z-index: 1;
+}
+
+/* Right Column: Login Panel */
+.login-panel {
+  width: var(--panel-width);
+  max-width: 100%;
+  background: var(--bg-panel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 36px;
+  z-index: 2;
+  box-shadow: -8px 0 30px rgba(2,6,23,0.4);
+  border-left: 1px solid var(--border);
+  
+  /* ANIMATION: Background & Border */
+  transition: background-color var(--trans-speed) ease, border-color var(--trans-speed) ease;
+}
+
+.panel-content {
+  width: 100%;
+  max-width: 420px;
+  color: var(--text-main);
+  /* ANIMATION: Text Color */
+  transition: color var(--trans-speed) ease;
+}
+
+/* Branding */
+.brand { display: flex; gap: 16px; align-items: center; margin-bottom: 32px; }
+
+.plate-logo {
+  background: var(--logo-bg);
+  padding: 8px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  /* ANIMATION */
+  transition: background-color var(--trans-speed) ease, border-color var(--trans-speed) ease;
+}
+
+.plate-logo img { 
+  display: block; width: 48px; height: 48px; object-fit: contain; 
+  /* ANIMATION: Logo filter */
+  transition: filter var(--trans-speed) ease;
+}
+/* Invert logo in Dark Mode (make it white-ish) */
+[data-theme="dark"] .plate-logo img { filter: invert(1); }
+[data-theme="light"] .plate-logo img { filter: none; }
+
+.title { margin: 0; font-size: 24px; font-weight: 700; color: var(--text-main); transition: color var(--trans-speed) ease; }
+.subtitle { color: var(--text-muted); font-size: 13px; margin-top: 4px; transition: color var(--trans-speed) ease; }
+
+/* Form Styles */
+.form > div { margin-bottom: 16px; }
+.label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; text-transform: uppercase; transition: color var(--trans-speed) ease; }
+
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  color: var(--text-main);
+  outline: none;
+  font-size: 14px;
+  /* ANIMATION */
+  transition: border-color 0.2s, background-color var(--trans-speed) ease, color var(--trans-speed) ease;
+}
+.input:focus { border-color: var(--accent); background: rgba(43, 140, 255, 0.05); }
+.input::placeholder { color: var(--text-muted); opacity: 0.5; }
+
+.options { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; margin-bottom: 24px; }
+.checkbox { display: flex; align-items: center; cursor: pointer; color: var(--text-muted); font-size: 13px; transition: color var(--trans-speed) ease; }
+.checkbox input { margin-right: 8px; accent-color: var(--accent); transform: scale(1.1); }
+
+.link { background: none; border: none; color: var(--accent); cursor: pointer; font-size: 13px; font-weight: 600; }
+.link:hover { text-decoration: underline; }
+
+/* Buttons */
+.split { display: flex; gap: 12px; align-items: center; }
+.btn { 
+  flex: 1; 
+  padding: 12px; 
+  border-radius: 8px; 
+  border: none; 
+  cursor: pointer; 
+  font-weight: 600; 
+  font-size: 14px;
+  transition: 0.2s;
+}
+.btn-primary { background: var(--accent); color: white; }
+.btn-primary:hover { background: var(--accent-hover); }
+
+.btn-secondary { 
+  background: transparent; 
+  border: 1px solid var(--border); 
+  color: var(--text-muted); 
+  /* ANIMATION */
+  transition: border-color var(--trans-speed) ease, color var(--trans-speed) ease;
+}
+.btn-secondary:hover { border-color: var(--text-muted); color: var(--text-main); }
+.btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+/* Messages */
+.message { margin-top: 16px; padding: 10px; border-radius: 8px; font-size: 13px; text-align: center; }
+.message.ok { background: rgba(34,197,94,0.1); color: #4ade80; border: 1px solid rgba(34,197,94,0.2); }
+.message.err { background: rgba(239,68,68,0.1); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .fullscreen-container { flex-direction: column; }
+  .login-image { display: none; }
+  .login-panel { width: 100%; height: 100vh; padding: 24px; box-shadow: none; border: none; }
+  .login-theme-toggle { top: 15px; right: 15px; }
+}

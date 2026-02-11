@@ -1,0 +1,183 @@
+/* src/styles/LoadingScreen.css */
+
+/* Full-screen overlay */
+:root {
+  --overlay: rgba(6,10,18,0.28);
+  --card-max-width: 920px;
+}
+.loader-root {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--overlay);
+  z-index: 9999;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scene with baked-in cars background */
+.loader-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+/* Decorative layer above background but below UI */
+.svg-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Center card skeleton */
+.center-card {
+  position: relative;
+  z-index: 6;
+  width: min(520px, 86%);
+  max-width: var(--card-max-width);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  pointer-events: none;
+  padding: 28px;
+  box-sizing: border-box;
+  background: transparent;
+}
+
+/* Avatar and skeleton lines */
+.avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  box-shadow: 0 6px 18px rgba(2,6,23,0.45);
+}
+.card-lines .line {
+  display: block;
+  height: 10px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  margin: 8px 0;
+}
+.card-lines .line.short { width: 36%; }
+.card-lines .line.long { width: 72%; }
+
+/* Center license wrapper default centered */
+.center-license-wrap {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -52%);
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 7;
+  pointer-events: none;
+}
+
+/* Variant: shift the license to the right side visually */
+.center-license-wrap.right-side {
+  left: 62%;
+  transform: translate(-50%, -50%);
+}
+
+/* Driver-license PNG card */
+.center-license {
+  width: clamp(96px, 14vw, 160px);
+  height: clamp(64px, 9.5vw, 104px);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 12px;
+  box-shadow: 0 14px 40px hsla(229, 84%, 5%, 0.6);
+  border: 1px solid hsla(0, 0%, 0%, 0.16);
+  flex-shrink: 0;
+}
+
+/* Horizontal dots to the RIGHT of the license (left→right pulse) */
+.license-side-dots {
+  display: inline-flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  pointer-events: none;
+}
+.license-side-dots .sdot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, hsl(0, 48%, 27%), hsl(0, 48%, 27%));
+  box-shadow: 0 6px 16px hsla(0, 100%, 64%, 0.178);
+  opacity: 0.98;
+  transform: translateY(0) scale(0.92);
+  animation: sdot-horizontal 920ms infinite cubic-bezier(.2,.8,.2,1);
+}
+.license-side-dots .sdot:nth-child(1) { animation-delay: 0ms; }
+.license-side-dots .sdot:nth-child(2) { animation-delay: 120ms; }
+.license-side-dots .sdot:nth-child(3) { animation-delay: 240ms; }
+
+@keyframes sdot-horizontal {
+  0%   { transform: translateY(0) scale(0.92); opacity: 0.6; }
+  40%  { transform: translateY(-6px) scale(1.08); opacity: 1; }
+  80%  { transform: translateY(0) scale(0.96); opacity: 0.75; }
+  100% { transform: translateY(0) scale(0.92); opacity: 0.6; }
+}
+
+/* Connectors (kept for composition) */
+.connector {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+}
+.connector.c-1 { left: 6%; top: 16%; }
+.connector.c-2 { right: 6%; top: 16%; }
+.connector.c-3 { right: 6%; bottom: 16%; }
+.connector.c-4 { left: 6%; bottom: 16%; }
+.connector .dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin: 2px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 4px 10px rgba(2,6,23,0.35);
+}
+
+/* Screen reader text (visually hidden) */
+.sr-text {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .license-side-dots .sdot { animation: none; transform: none; opacity: 1; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .center-card { padding: 20px; gap: 12px; }
+  .center-license { width: clamp(84px, 20vw, 128px); height: clamp(56px, 12vw, 88px); }
+  .license-side-dots { gap: 8px; height: 22px; }
+  .license-side-dots .sdot { width: 8px; height: 8px; }
+  .center-license-wrap.right-side { left: 56%; transform: translate(-50%, -50%); }
+}
